@@ -1,0 +1,76 @@
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e0e7ff;
+    color: #333;
+}
+
+header {
+    background-color: #1c1b2e;
+    color: #fff;
+    padding: 1em;
+    text-align: center;
+}
+
+header h1 {
+    margin-bottom: 0.5em;
+}
+
+nav a {
+    color: #b3b3cc;
+    margin: 0 15px;
+    text-decoration: none;
+}
+
+nav a:hover {
+    color: #ffffff;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 2em;
+}
+
+.map-section, .devices-section, .graph-section, .history-section, .profile-section {
+    background-color: #1c1b2e;
+    color: #fff;
+    padding: 1em;
+    margin: 1em 0;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 600px;
+}
+
+.map-box, .device, .graph-box, .history-box {
+    background-color: #33335a;
+    padding: 1em;
+    margin: 0.5em 0;
+    border-radius: 8px;
+}
+
+.device h3 {
+    color: #76e1b2;
+}
+
+button {
+    background-color: #3b3b5e;
+    color: #fff;
+    border: none;
+    padding: 0.5em 1em;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 1em;
+}
+
+button:hover {
+    background-color: #4c4c6e;
+}

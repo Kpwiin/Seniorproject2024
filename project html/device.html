@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silence - Device Detail</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: #0a0c1d;
+            color: #fff;
+        }
+        nav {
+            background: #151933;
+            color: white;
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #4f46e5;
+            font-weight: bold;
+        }
+        .logo img {
+            width: 24px;
+            height: 24px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: #8b8da0;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .nav-links a:hover {
+            color: #fff;
+        }
+        .main-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .card {
+            background: #151933;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            color: #8b8da0;
+            font-size: 0.9rem;
+        }
+        .expand-button {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: #fff;
+            border: none;
+            outline: none;
+        }
+        .expand-button:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .time-options {
+            position: absolute;
+            top: 4rem;
+            right: 1.5rem;
+            background: #1f2544;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.1);
+            display: none;
+            z-index: 100;
+        }
+        .time-options.show {
+            display: block;
+        }
+        .time-option {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            color: #8b8da0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.9rem;
+        }
+        .time-option:hover {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+        }
+        .time-option.selected {
+            color: #fff;
+        }
+        .time-option.selected::before {
+            content: "•";
+            color: #fff;
+        }
+        .noise-stats {
+            display: flex;
+            gap: 2rem;
+            margin: 1rem 0;
+        }
+        .stat-group {
+            flex: 1;
+        }
+        .stat-label {
+            color: #8b8da0;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .stat-value.red {
+            color: #ef4444;
+        }
+        .stat-value.green {
+            color: #22c55e;
+        }
+        .graph-container {
+            position: relative;
+            height: 200px;
+            margin: 1rem 0;
+        }
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .history-red {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+        .history-green {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+        }
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+        }
+        .button {
+            background: #ffffff;
+            color: black;
+            padding: 0.5rem 1.5rem;
+            border-radius: 9999px;
+            border: none;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        /* Popup styles */
+       .popup {
+             position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            color: black;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 2000;
+            width: 80%; /* เพิ่มความกว้าง */
+            max-width: 600px; /* จำกัดความกว้างสูงสุด */
+            min-height: 300px; /* เพิ่มความสูงขั้นต่ำ */
+            text-align: center;
+            }
+
+
+        .popup-content {
+                position: relative;
+                display: flex; /* ใช้ Flexbox */
+                flex-direction: column; /* จัดเรียงเนื้อหาในแนวตั้ง */
+                align-items: center; /* จัดข้อความกึ่งกลางแนวนอน */
+                justify-content: center; /* จัดข้อความกึ่งกลางแนวตั้ง */
+                background: white;
+                color: black;
+                padding: 2rem;
+                border-radius: 1rem;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                width: 90%;
+                max-width: 600px;
+                min-height: 300px; /* เพิ่มความสูงขั้นต่ำ */
+                margin: 0 auto; /* จัดกึ่งกลางในแนวนอน */
+                text-align: center; /* จัดข้อความใน Pop-up ให้อยู่ตรงกลาง */
+                }
+
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .progress-bar {
+            width: 100px;
+            height: 4px;
+            background: #ccc;
+            border-radius: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 50%;
+            background: #4f46e5;
+            animation: progress-animation 2s infinite;
+        }
+
+        .play-btn {
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @keyframes progress-animation {
+            0% {
+                left: 0;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <img src="/api/placeholder/24/24" alt="Silence Logo" />
+                <span>Silence</span>
+            </div>
+            <div class="nav-links">
+                <a href="Home.html">Home</a>
+                <a href="complaint.html">Complaint</a>
+                <a href="#">Manual Classification</a>
+                <a href="setthing.html">Setting</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="grid-container">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Noise level graph</h2>
+                    <button class="expand-button" onclick="toggleOptions('timeOptions')">+</button>
+                    <div id="timeOptions" class="time-options">
+                        <div class="time-option selected">Today</div>
+                        <div class="time-option">Last week</div>
+                        <div class="time-option">Last month</div>
+                        <div class="time-option">3 months ago</div>
+                        <div class="time-option">Last year</div>
+                    </div>
+                </div>
+                <div class="noise-stats">
+                    <div class="stat-group">
+                        <div class="stat-label">Avg today</div>
+                        <div class="stat-value red">94-127 dB</div>
+                    </div>
+                    <div class="stat-group">
+                        <div class="stat-label">7-day baseline</div>
+                        <div class="stat-value green">56-72 dB</div>
+                    </div>
+                </div>
+                <div class="graph-container">
+                    <canvas id="noiseChart"></canvas>
+                </div>
+                <div class="card-footer">
+                    
+                    <button class="button" onclick="showPopup('classification')">Classification Result</button>
+                    <button class="button" onclick="showPopup('noise-sample')">Noise Sample</button>
+                </div>
+                <div id="popup-container" style="display: none;"></div>
+
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2>History</h2>
+                    <button class="expand-button" onclick="toggleOptions('historyOptions')">+</button>
+                    <div id="historyOptions" class="time-options">
+                        <div class="time-option selected">Today</div>
+                        <div class="time-option">Last week</div>
+                        <div class="time-option">Last month</div>
+                        <div class="time-option">3 Month ago</div>
+                        <div class="time-option">Last year</div>
+                    </div>
+                </div>
+                <div class="history-item history-red">
+                    <span>Tues-29 Oct</span>
+                    <span>Avg 94-127</span>
+                </div>
+                <div class="history-item history-green">
+                    <span>Sun-27 Oct</span>
+                    <span>Avg 56-72</span>
+                </div>
+                <a href="history.html" class="history-item history-red">
+                    <span>Sat-26 Oct</span>
+                    <span>Avg 89-111</span>
+                </a>
+                <div class="history-item history-green">
+                    <span>Thurs-24 Oct</span>
+                    <span>Avg 56-72</span>
+                </div>
+                <div class="history-item history-green">
+                    <span>Wed-23 Oct</span>
+                    <span>Avg 56-72</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle options menu
+        function toggleOptions(menuId) {
+            const menu = document.getElementById(menuId);
+            // Close all other menus
+            document.querySelectorAll('.time-options').forEach(el => {
+                if (el.id !== menuId) {
+                    el.classList.remove('show');
+                }
+            });
+            menu.classList.toggle('show');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const expandButton = event.target.closest('.expand-button');
+            if (!expandButton) {
+                document.querySelectorAll('.time-options').forEach(menu => {
+                    menu.classList.remove('show');
+                });
+            }
+        });
+
+        // Handle option selection
+        document.querySelectorAll('.time-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const parentMenu = this.closest('.time-options');
+                // Remove selected class from siblings
+                parentMenu.querySelectorAll('.time-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                // Add selected class to clicked option
+                this.classList.add('selected');
+                // Hide dropdown
+                parentMenu.classList.remove('show');
+            });
+        });
+
+        // Initialize chart after DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('noiseChart').getContext('2d');
+            
+            // Generate sample data
+            const hours = Array.from({length: 24}, (_, i) => `${i}:00`);
+            const noiseData = Array.from({length: 24}, () => Math.floor(Math.random() * (120 - 40) + 40));
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: hours,
+                    datasets: [{
+                        data: noiseData,
+                        backgroundColor: '#ef4444',
+                        borderWidth: 0,
+                        borderRadius: 4,
+                        barPercentage: 0.8,
+                        categoryPercentage: 0.9
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255,255,255,0.1)'
+                            },
+                            ticks: {
+                                color: '#8b8da0',
+                                callback: function(value) {
+                                    return value + ' dB';
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: '#8b8da0',
+                                maxRotation: 0,
+                                autoSkip: true,
+                                maxTicksLimit: 12
+                            }
+                        }
+                    }
+                }
+            });
+        });
+         // Function to show Popup
+         function showPopup(type) {
+            const popupContainer = document.getElementById('popup-container');
+            let content = '';
+
+            if (type === 'classification') {
+                content = `
+                    <div class="popup">
+                        <div class="popup-content">
+                            <span class="close-btn" onclick="closePopup()">×</span>
+                            <h2>Classification Result</h2>
+                            <p><strong>Jack Hammer</strong></p>
+                        </div>
+                    </div>
+                `;
+            } else if (type === 'noise-sample') {
+                content = `
+                    <div class="popup">
+                        <div class="popup-content">
+                            <span class="close-btn" onclick="closePopup()">×</span>
+                            <div class="loading">
+                                <div class="progress-bar"></div>
+                                <button class="play-btn">▶</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            popupContainer.innerHTML = content;
+            popupContainer.style.display = 'block';
+        }
+
+        // Function to close Popup
+        function closePopup() {
+            const popupContainer = document.getElementById('popup-container');
+            popupContainer.style.display = 'none';
+            popupContainer.innerHTML = '';
+        }
+    </script>
+</body>
+</html>

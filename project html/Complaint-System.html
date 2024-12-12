@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silence - Complaint System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #0a0a1a;
+            background-image: 
+                radial-gradient(circle at 90% 90%, #1a1a3a 0%, transparent 40%),
+                radial-gradient(circle at 10% 10%, #1a1a3a 0%, transparent 40%);
+            min-height: 100vh;
+            color: white;
+        }
+
+        .navbar {
+            background-color: #0a0a1a;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #2a2a4a;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #4169E1;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .main-content {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .title {
+            color: #4169E1;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .complaint-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            background-color: #2a2a4a;
+            border-radius: 50%;
+        }
+
+        .location {
+            color: #ff4444;
+        }
+
+        .warning-text {
+            color: #ff4444;
+            font-weight: bold;
+        }
+
+        .button-group {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-verify {
+            background-color: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+        }
+
+        .btn-remove {
+            background-color: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn-finish {
+            background-color: #1a1a3a;
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-add {
+            background-color: #4169E1;
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+        .verified-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 20px;
+            height: 20px;
+            background-color: #2ecc71;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+        }
+
+        .complaint-card.verified .verified-icon {
+            display: flex;
+        }
+
+        .complaint-card.verified .button-group {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <svg width="30" height="30" viewBox="0 0 100 100">
+                <path d="M20,50 Q50,20 80,50 Q50,80 20,50" fill="none" stroke="#4169E1" stroke-width="8"/>
+            </svg>
+            Silence
+        </div>
+        <div class="nav-links">
+            <a href="adminhome.html">Home</a>
+            <a href="#">Complaint</a>
+            <a href="#">Manual Classification</a>
+            <a href="#">Setting</a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <h1 class="title">Complaint</h1>
+
+        <div class="complaint-card" id="complaint1">
+            <div class="verified-icon">✓</div>
+            <div class="button-group">
+                <button class="btn btn-verify" onclick="verifyComplaint('complaint1')">✓ Verify</button>
+                <button class="btn btn-remove">✕ Remove</button>
+            </div>
+            <div class="user-info">
+                <div class="avatar"></div>
+                <div>
+                    <div>Tan added a complaint 2 hours ago</div>
+                    <div class="location">Location: 7-11</div>
+                </div>
+            </div>
+            <div class="complaint-text">
+                <span class="warning-text">Warning!</span> I am writing to formally express my concern regarding the loud noise
+                generated by the jackhammering activity occurring at the 7-11. The noise levels have
+                been disruptive to the surrounding community and have significantly impacted our daily routines.
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn-finish">Finish</button>
+            <button class="btn-add">Add complaint</button>
+        </div>
+    </div>
+
+        <!-- Repeat similar cards for other complaints -->
+    </div>
+    <script>
+        function verifyComplaint(complaintId) {
+            const complaintCard = document.getElementById(complaintId);
+            complaintCard.classList.add('verified');
+        }
+    </script>
+</body>
+</html>

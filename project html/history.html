@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silence - History</title>
+    <style>
+        /* [CSS Styling] */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+        }
+
+        nav {
+            background: #1f2937;
+            color: white;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-circle {
+            width: 24px;
+            height: 24px;
+            background: #4f46e5;
+            border-radius: 50%;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            transition: background-color 0.2s;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .main-content h1 {
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+
+        .history-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-top: 1.5rem;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .date {
+            color: #666;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .noise-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ef4444;
+            padding: 0.5rem 1rem;
+            background: #fee2e2;
+            border-radius: 0.5rem;
+        }
+
+        .graph {
+            height: 300px;
+            background: #f3f4f6;
+            margin: 1.5rem 0;
+            border-radius: 0.25rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+        }
+
+        .badge {
+            background: #f3f4f6;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            color: #4b5563;
+        }
+
+        .button {
+            background: #3b82f6;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 9999px;
+            border: none;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .button:hover {
+            background: #2563eb;
+        }
+
+        @media (max-width: 640px) {
+            .nav-links {
+                display: none;
+            }
+
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .noise-value {
+                font-size: 1.5rem;
+            }
+
+            .graph {
+                height: 200px;
+            }
+        }
+         /* Popup styles */
+       .popup {
+        position: fixed;
+       top: 50%;
+       left: 50%;
+       transform: translate(-50%, -50%);
+       background: white;
+       color: black;
+       padding: 2rem;
+       border-radius: 1rem;
+       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+       z-index: 2000;
+       width: 80%; /* เพิ่มความกว้าง */
+       max-width: 600px; /* จำกัดความกว้างสูงสุด */
+       min-height: 300px; /* เพิ่มความสูงขั้นต่ำ */
+       text-align: center;
+       }
+
+
+   .popup-content {
+           position: relative;
+           display: flex; /* ใช้ Flexbox */
+           flex-direction: column; /* จัดเรียงเนื้อหาในแนวตั้ง */
+           align-items: center; /* จัดข้อความกึ่งกลางแนวนอน */
+           justify-content: center; /* จัดข้อความกึ่งกลางแนวตั้ง */
+           background: white;
+           color: black;
+           padding: 2rem;
+           border-radius: 1rem;
+           box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+           width: 90%;
+           max-width: 600px;
+           min-height: 300px; /* เพิ่มความสูงขั้นต่ำ */
+           margin: 0 auto; /* จัดกึ่งกลางในแนวนอน */
+           text-align: center; /* จัดข้อความใน Pop-up ให้อยู่ตรงกลาง */
+           }
+
+
+   .close-btn {
+       position: absolute;
+       top: 10px;
+       right: 10px;
+       cursor: pointer;
+       font-size: 1.5rem;
+   }
+
+   .loading {
+       display: flex;
+       flex-direction: column;
+       align-items: center;
+       gap: 1rem;
+   }
+
+   .progress-bar {
+       width: 100px;
+       height: 4px;
+       background: #ccc;
+       border-radius: 2px;
+       position: relative;
+       overflow: hidden;
+   }
+
+   .progress-bar::after {
+       content: '';
+       position: absolute;
+       left: 0;
+       top: 0;
+       height: 100%;
+       width: 50%;
+       background: #4f46e5;
+       animation: progress-animation 2s infinite;
+   }
+
+   .play-btn {
+       font-size: 1.5rem;
+       cursor: pointer;
+   }
+
+   @keyframes progress-animation {
+       0% {
+           left: 0;
+       }
+       100% {
+           left: 100%;
+       }
+   }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-circle"></div>
+                <span>Silence</span>
+            </div>
+            <div class="nav-links">
+                <a href="Home.html">Home</a>
+                <a href="complaint.html">Complaint</a>
+                <a href="class.html">Manual Classification</a>
+                <a href="setthing.html">Setting</a>
+            </div>
+        </div>
+    </nav>
+    <div class="main-content">
+        <h1>Device 2 at 7-11</h1>
+        <div class="history-card">
+            <div class="card-header">
+                <div>
+                    <h2>History</h2>
+                    <div class="date">Sat-26 Oct</div>
+                </div>
+                <div class="noise-value">89-111 dB</div>
+            </div>
+            <div class="graph">
+                <canvas id="noiseChart"></canvas>
+            </div>
+            <div class="card-footer">
+                <button class="button" onclick="showPopup('classification')">Classification Result</button>
+                    <button class="button" onclick="showPopup('noise-sample')">Noise Sample</button>
+            </div>
+        </div>
+        <div id="popup-container" style="display: none;"></div>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('noiseChart').getContext('2d');
+        const noiseChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['9AM', '10AM', '11AM', '12PM', '1PM', '2PM', '3PM'],
+                datasets: [{
+                    label: 'Noise Level (dB)',
+                    data: [89, 95, 101, 111, 105, 98, 92],
+                    backgroundColor: 'rgba(239, 68, 68, 0.7)',
+                    borderColor: 'rgba(239, 68, 68, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 120
+                    }
+                }
+            }
+        });
+          // Function to show Popup
+          function showPopup(type) {
+            const popupContainer = document.getElementById('popup-container');
+            let content = '';
+
+            if (type === 'classification') {
+                content = `
+                    <div class="popup">
+                        <div class="popup-content">
+                            <span class="close-btn" onclick="closePopup()">×</span>
+                            <h2>Classification Result</h2>
+                            <p><strong>Jack Hammer</strong></p>
+                        </div>
+                    </div>
+                `;
+            } else if (type === 'noise-sample') {
+                content = `
+                    <div class="popup">
+                        <div class="popup-content">
+                            <span class="close-btn" onclick="closePopup()">×</span>
+                            <div class="loading">
+                                <div class="progress-bar"></div>
+                                <button class="play-btn">▶</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            popupContainer.innerHTML = content;
+            popupContainer.style.display = 'block';
+        }
+
+        // Function to close Popup
+        function closePopup() {
+            const popupContainer = document.getElementById('popup-container');
+            popupContainer.style.display = 'none';
+            popupContainer.innerHTML = '';
+        }
+    </script>
+</body>
+</html>

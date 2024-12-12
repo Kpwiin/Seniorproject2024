@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silence - Home</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #0f172a;
+            color: white;
+        }
+        nav {
+            background: #1e293b;
+            padding: 1rem;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #60a5fa;
+        }
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: #60a5fa;
+        }
+        .main-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            display: flex;
+            gap: 2rem;
+        }
+        .map-container {
+            flex: 3;
+            background: #f3f4f6;
+            border-radius: 0.5rem;
+            position: relative;
+            padding: 1rem;
+            color: black;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+        .map-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            color: white;
+        }
+        .map {
+            height: 400px;
+            background: url('https://www.schemecolor.com/wp-content/uploads/blue-and-gray-maps-color-scheme.png');
+            background-size: cover;
+            border-radius: 0.5rem;
+            position: relative;
+        }
+        .device-marker {
+            position: absolute;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background: white;
+            color: black;
+        }
+        .device-marker.device-1 {
+            top: 100px;
+            left: 80px;
+        }
+        .device-marker.device-2 {
+            top: 200px;
+            left: 150px;
+        }
+        .devices-container {
+            flex: 1;
+            background: #1e293b;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+        .devices-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #60a5fa;
+            text-align: center;
+        }
+        .device-card {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+        .device-card.device-1 {
+            background: #22c55e;
+            color: white;
+        }
+        .device-card.device-2 {
+            background: #ef4444;
+            color: white;
+        }
+        .manage-button {
+            display: block;
+            margin: 1rem auto 0;
+            padding: 0.75rem 1.5rem;
+            background: #3b82f6;
+            color: white;
+            font-size: 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            text-align: center;
+        }
+        .manage-button:hover {
+            background: #2563eb;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">Silence</div>
+            <div class="nav-links">
+                <a href="#" class="active">Home</a>
+                <a href="Complaint-system.html">Complaint</a>
+                <a href="class.html">Manual Classification</a>
+                <a href="setthing.html">Setting</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Map Section -->
+        <div class="map-container">
+            <h2 class="map-title">Map</h2>
+            <div class="map">
+                <!-- Device Markers -->
+                <div class="device-marker device-1">
+                    Device 1<br>
+                    ICT Mahidol<br>
+                    Loudness: 50 dB<br>
+                    Status: <span style="color: green;">Safe</span><br>
+                    Source: Unknown
+                </div>
+                <div class="device-marker device-2">
+                    Device 2<br>
+                    7-11<br>
+                    Loudness: 175 dB<br>
+                    Status: <span style="color: red;">Danger</span><br>
+                    Source: Jack Hammer
+                </div>
+            </div>
+        </div>
+
+        <!-- Devices Section -->
+        <div class="devices-container">
+            <h2 class="devices-title">Devices</h2>
+            <div class="device-card device-1">
+                <strong>Device 1</strong><br>
+                Location: ICT Mahidol<br>
+                Status: <span style="color: #22c55e;">Safe</span>
+            </div>
+            <div class="device-card device-2">
+                <strong>Device 2</strong><br>
+                Location: 7-11<br>
+                Status: <span style="color: #ef4444;">Danger</span>
+            </div>
+            <a href="device-management.html" class="manage-button">Manage device</a>
+        </div>
+    </div>
+</body>
+</html>

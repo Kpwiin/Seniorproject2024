@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Settings</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .wave-background {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml,...');
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        nav {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            color: #0066ff;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .main-content {
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .device-info {
+            margin-bottom: 2rem;
+        }
+
+        .device-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* Toggle Switch Style */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* Slider Style */
+        .range-slider {
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .range-slider input {
+            width: 100%;
+            height: 5px;
+            background: #0066ff;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        .value-display {
+            color: white;
+            margin-top: 5px;
+        }
+
+        .remove-device {
+            color: #ff4444;
+            cursor: pointer;
+            margin-top: 2rem;
+        }
+
+        .save-button {
+            background-color: #0066ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            float: right;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="wave-background"></div>
+
+    <nav>
+        <div class="logo">
+            <span>Silence</span>
+        </div>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Complaint</a>
+            <a href="#">Manual Classification</a>
+            <a href="#">Setting</a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="device-info">
+            <h2>Device 1</h2>
+            <p>Location: ICT Mahidol</p>
+        </div>
+
+        <div class="device-controls">
+            <div>
+                <p>Enable-Disable device</p>
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div>
+                <p>Noise threshold</p>
+                <input type="range" class="range-slider" min="0" max="100" value="80">
+                <div class="value-display">80 dB</div>
+            </div>
+
+            <div>
+                <p>Noise sampling period</p>
+                <input type="range" class="range-slider" min="0" max="10" value="3">
+                <div class="value-display">3 min</div>
+            </div>
+
+            <div>
+                <p>Record duration</p>
+                <input type="range" class="range-slider" min="0" max="5" value="1">
+                <div class="value-display">1 min</div>
+            </div>
+
+            <div class="remove-device">Remove device</div>
+
+            <button class="save-button" onclick="handleSave()">Save</button>
+        </div>
+    </div>
+
+    <script>
+        // Update range slider values
+        document.querySelectorAll('.range-slider').forEach(slider => {
+            slider.addEventListener('input', function() {
+                const display = this.nextElementSibling;
+                const value = this.value;
+                const unit = display.textContent.split(' ')[1];
+                display.textContent = `${value} ${unit}`;
+            });
+        });
+        // เพิ่มต่อจาก script เดิม
+document.querySelector('.save-button').addEventListener('click', function() {
+    window.location.href = 'device-management.html';  // หรือใช้ window.history.back();
+  });
+    </script>
+</body>
+</html>

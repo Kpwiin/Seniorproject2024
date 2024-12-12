@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silence - Home</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+        }
+        nav {
+            background-color: #1e293b;
+            padding: 1rem;
+          }
+          
+          .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          }
+          
+          .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #60a5fa;
+          }
+          
+          .nav-links {
+            display: flex;
+            gap: 1.5rem;
+          }
+          
+          .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s;
+          }
+          
+          .nav-links a:hover, 
+          .nav-links a.active {
+            color: #60a5fa;
+          }
+        .admin-button {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            padding: 0.5rem 1rem;
+            background: #3b82f6;
+            color: white;
+            font-size: 0.875rem;
+            border: none;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .admin-button:hover {
+            background: #2563eb;
+        }
+        .main-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .map-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .map-container {
+            height: 400px;
+            background: #e5e7eb;
+            border-radius: 0.5rem;
+            position: relative;
+            margin-bottom: 2rem;
+            background-image: linear-gradient(#d1d5db 1px, transparent 1px),
+                            linear-gradient(90deg, #d1d5db 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .device-marker {
+            position: absolute;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+        }
+        .device-marker:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .device-marker.device-1 {
+            top: 2rem;
+            left: 3rem;
+            background: #dcfce7;
+        }
+        .device-marker.device-2 {
+            top: 6rem;
+            left: 8rem;
+            background: #fee2e2;
+        }
+        .devices-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .device-card {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+        }
+        .device-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .device-card.device-1 {
+            background: #dcfce7;
+        }
+        .device-card.device-2 {
+            background: #fee2e2;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-circle"></div>
+                <span>Silence</span>
+            </div>
+            <div class="nav-links">
+                <a href="#" class="active">Home</a>
+                <a href="complaint.html">Complaint</a>
+                <a href="class.html">Manual Classification</a>
+                <a href="setthing.html">Setting</a>
+            </div>
+        </div>
+        <!-- Admin Button -->
+        <button class="admin-button" onclick="goToAdminPage()">Admin</button>
+    </nav>
+
+    <div class="main-content">
+        <div class="map-header">
+            <h1>Map</h1>
+        </div>
+
+        <div class="map-container">
+            <div class="device-marker device-1">
+                <div>Device 1</div>
+                <div style="color: #666; font-size: 0.875rem;">Location: ICT Mahidol</div>
+            </div>
+            <div class="device-marker device-2" onclick="goToDevicePage(2)">
+                <div>Device 2</div>
+                <div style="color: #666; font-size: 0.875rem;">Location: 7-11</div>
+            </div>
+        </div>
+
+        <h2 style="margin-bottom: 1rem;">Devices</h2>
+        <div class="devices-list">
+            <div class="device-card device-1">
+                Device 1<br>
+                <span style="color: #666; font-size: 0.875rem;">Location: CT scanner</span>
+            </div>
+            <div class="device-card device-2" onclick="goToDevicePage(2)">
+                Device 2<br>
+                <span style="color: #666; font-size: 0.875rem;">Location: 7-11</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function goToAdminPage() {
+            // นำทางไปยังหน้า admin.html
+            window.location.href = "adminhome.html";
+        }
+
+        function goToDevicePage(deviceId) {
+            // นำทางไปยังหน้า device.html พร้อมส่ง parameter deviceId
+            window.location.href = `device.html?id=${deviceId}`;
+        }
+    </script>
+</body>
+</html>
